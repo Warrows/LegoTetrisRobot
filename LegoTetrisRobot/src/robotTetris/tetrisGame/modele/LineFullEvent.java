@@ -1,4 +1,5 @@
 package robotTetris.tetrisGame.modele;
 
-public class LineFullEvent extends TetrisEvent {
+public class LineFullEvent extends TetrisEvent
+{
 }

@@ -1,4 +1,5 @@
 package robotTetris.tetrisGame.modele;
 
-public interface TetrisListener {
+public interface TetrisListener
+{
 }
