@@ -2,11 +2,15 @@ package robotTetris.tetrisGame.modele;
 
 public class Cell
 {
-	boolean occupied;
+	private boolean occupied;
+	private int row;
+	private int col;
 
-	public Cell()
+	public Cell(int col, int row)
 	{
 		this.occupied = false;
+		this.row = row;
+		this.col = col;
 	}
 
 	public boolean occupy()
