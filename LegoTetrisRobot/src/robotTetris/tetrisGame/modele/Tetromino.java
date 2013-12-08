@@ -65,7 +65,7 @@ public class Tetromino
 		return false;
 	}
 
-	public boolean turnCounterClockWise(Board board)
+	public boolean turnCounterClockwise(Board board)
 	{
 		return false;
 	}
