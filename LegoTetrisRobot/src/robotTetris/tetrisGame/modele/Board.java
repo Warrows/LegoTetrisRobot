@@ -94,19 +94,20 @@ public class Board
 	public String toString()
 	{
 
-		String str = "";
-
-		for (int col = 0; col < WIDTH; col++)
+		String str = "\n";
+		for (int row = 0; row < HEIGHT; row++)
 		{
 			str += "|";
-			for (int row = 0; row < HEIGHT; row++)
+			for (int col = 0; col < WIDTH; col++)
 			{
 				if (!this.getCell(row, col).isOccupied())
-					str += ".";
+					str += " . ";
 				else
 					str += "X";
 			}
 			str += "|\n";
+			if (row == HEIGHT-1)
+				str += "________________________________";
 		}
 
 		return str;
@@ -117,9 +118,7 @@ public class Board
 	 */
 	public static void main(String[] arg)
 	{
-
 		Board board = new Board();
-
 		System.out.println(board);
 	}
 }
