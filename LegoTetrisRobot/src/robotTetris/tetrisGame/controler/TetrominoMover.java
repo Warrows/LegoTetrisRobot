@@ -2,8 +2,9 @@ package robotTetris.tetrisGame.controler;
 
 import java.util.Vector;
 
-public class TetrominoMover {
+public class TetrominoMover
+{
 
-    public Vector  myCommandDispatcher;
+	public Vector myCommandDispatcher;
 
 }

@@ -1,4 +1,5 @@
 package robotTetris.tetrisGame.modele;
 
-public class AIPlayer extends Player {
+public class AIPlayer extends Player
+{
 }
