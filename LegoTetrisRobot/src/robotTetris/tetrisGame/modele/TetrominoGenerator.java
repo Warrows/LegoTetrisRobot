@@ -2,8 +2,9 @@ package robotTetris.tetrisGame.modele;
 
 import java.util.Vector;
 
-public class TetrominoGenerator {
+public class TetrominoGenerator
+{
 
-    public Vector  myGame;
+	public Vector myGame;
 
 }

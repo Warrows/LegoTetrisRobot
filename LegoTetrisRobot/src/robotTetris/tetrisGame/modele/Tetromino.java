@@ -1,8 +1,14 @@
 package robotTetris.tetrisGame.modele;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Tetromino
 {
 	private TetrominoType type;
+	private int rowOffset;
+	private int colOffset;
 	private boolean[][] representation =
 	{
 	{ false, false, false, false },
@@ -13,6 +19,8 @@ public class Tetromino
 	public Tetromino(TetrominoType type)
 	{
 		this.type = type;
+		colOffset = 5;
+		rowOffset = 1;
 		switch (type)
 		{
 		case O:
@@ -62,22 +70,90 @@ public class Tetromino
 
 	public boolean turnClockwise(Board board)
 	{
-		return false;
+		final int M = representation.length;
+		final int N = representation[0].length;
+		boolean[][] ret = new boolean[N][M];
+		for (int r = 0; r < M; r++)
+		{
+			for (int c = 0; c < N; c++)
+			{
+				if (board.isOccupied(c + rowOffset, M - 1 - r + colOffset))
+					return false;
+				ret[c][M - 1 - r] = representation[r][c];
+			}
+		}
+		representation = ret;
+		return true;
 	}
 
 	public boolean turnCounterClockwise(Board board)
 	{
-		return false;
+		final int M = representation.length;
+		final int N = representation[0].length;
+		boolean[][] ret = new boolean[N][M];
+		for (int r = 0; r < M; r++)
+		{
+			for (int c = 0; c < N; c++)
+			{
+				if (board.isOccupied(M - 1 - c + rowOffset, r + colOffset))
+					return false;
+				ret[M - 1 - c][r] = representation[r][c];
+			}
+		}
+		representation = ret;
+		return true;
 	}
 
-	public static void main(String[] args)
+	/**
+	 * This does not check anything, only change data
+	 */
+	public void fall()
 	{
-		for (int i = 0; i < 7; i++)
-		{
-			System.out.println(new Tetromino(TetrominoType.values()[i]));
-			System.out.println("\n\n");
-		}
+		rowOffset += 1;
 	}
+
+	/**
+	 * This does not check anything, only change data
+	 */
+	public void moveRight()
+	{
+		colOffset += 1;
+	}
+
+	/**
+	 * This does not check anything, only change data
+	 */
+	public void moveLeft()
+	{
+		colOffset -= 1;
+	}
+
+	public Set<Cell> getCells(Board board)
+	{
+		HashSet<Cell> ret = new HashSet<Cell>();
+		for (int row = 0; row < 4; row++)
+		{
+			for (int col = 0; col < 4; col++)
+				if (representation[col][row])
+					ret.add(board.getCell(rowOffset + row, colOffset + col));
+		}
+		return ret;
+	}
+
+	/*
+	 * public static void main(String[] args) { for (int i = 0; i < 7; i++) {
+	 * Tetromino t = new Tetromino(TetrominoType.values()[i]);
+	 * System.out.println(t+"\n"); t.turnClockwise(null);
+	 * System.out.println(t+"\n"); t.turnClockwise(null);
+	 * System.out.println(t+"\n"); t.turnClockwise(null);
+	 * System.out.println(t+"\n"); t.turnClockwise(null);
+	 * System.out.println(t+"\n"); t.turnCounterClockwise(null);
+	 * System.out.println(t+"\n"); t.turnCounterClockwise(null);
+	 * System.out.println(t+"\n"); t.turnCounterClockwise(null);
+	 * System.out.println(t+"\n");
+	 * 
+	 * System.out.println("------------------\n\n"); } }
+	 */
 
 	public String toString()
 	{
