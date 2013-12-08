@@ -16,9 +16,9 @@ public class Tetromino
 	{ false, false, false, false },
 	{ false, false, false, false } };
 
-	public Tetromino(TetrominoType type)
+	public Tetromino()
 	{
-		this.type = type;
+		this.type = TetrominoType.getRandomTetrominoType();
 		colOffset = 5;
 		rowOffset = 1;
 		switch (type)
