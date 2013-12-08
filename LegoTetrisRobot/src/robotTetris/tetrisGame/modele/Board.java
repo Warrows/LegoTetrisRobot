@@ -1,7 +1,5 @@
 package robotTetris.tetrisGame.modele;
 
-import java.util.Vector;
-
 public class Board
 {
 
