@@ -139,21 +139,6 @@ public class Tetromino
 		return ret;
 	}
 
-	/*
-	 * public static void main(String[] args) { for (int i = 0; i < 7; i++) {
-	 * Tetromino t = new Tetromino(TetrominoType.values()[i]);
-	 * System.out.println(t+"\n"); t.turnClockwise(null);
-	 * System.out.println(t+"\n"); t.turnClockwise(null);
-	 * System.out.println(t+"\n"); t.turnClockwise(null);
-	 * System.out.println(t+"\n"); t.turnClockwise(null);
-	 * System.out.println(t+"\n"); t.turnCounterClockwise(null);
-	 * System.out.println(t+"\n"); t.turnCounterClockwise(null);
-	 * System.out.println(t+"\n"); t.turnCounterClockwise(null);
-	 * System.out.println(t+"\n");
-	 * 
-	 * System.out.println("------------------\n\n"); } }
-	 */
-
 	public String toString()
 	{
 		String s = "";
