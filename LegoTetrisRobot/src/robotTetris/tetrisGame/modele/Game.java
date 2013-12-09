@@ -36,5 +36,4 @@ public class Game implements TetrisListener
 	public void pause()
 	{
 	}
-
 }
