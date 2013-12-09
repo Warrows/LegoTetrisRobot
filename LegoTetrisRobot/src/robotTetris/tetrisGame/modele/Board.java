@@ -20,7 +20,6 @@ public class Board
 	/**
 	 * 
 	 * @param newTetromino
-	 *            - Nouveau tetromino mis à jour par Game
 	 */
 	public void updateTetromino()
 	{
@@ -43,18 +42,27 @@ public class Board
 
 	/**
 	 * Déplace le tetromino vers la gauche
+	 * @return 
 	 */
-	public void moveLeft()
+	public boolean moveLeft()
 	{
-
+		for (Cell cell : tetromino.getCells(this))
+			if (isOccupied(cell.getCol()-1, cell.getRow()))
+				return false;
+		tetromino.moveLeft();
+		return true;
 	}
 
 	/**
 	 * Déplace le tetromino vers la droite
 	 */
-	public void moveRight()
+	public boolean moveRight()
 	{
-
+		for (Cell cell : tetromino.getCells(this))
+			if (isOccupied(cell.getCol()+1, cell.getRow()))
+				return false;
+		tetromino.moveRight();
+		return true;
 	}
 
 	/**
