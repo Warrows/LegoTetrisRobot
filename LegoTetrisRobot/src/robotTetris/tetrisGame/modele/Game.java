@@ -9,24 +9,17 @@ public class Game implements TetrisListener
 	{
 		this.board = new Board();
 		playing = true;
-		while (playing)
-		{
-			tick();
-			try
-			{
-				Thread.sleep(1000);
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-		}
+	}
+	
+	public boolean isPlaying()
+	{
+		return playing;
 	}
 
 	public void tick()
 	{
 		if (!board.moveDown())
 			board.lockTetromino();
-		System.out.println(board);
 	}
 
 	public void start()
@@ -35,5 +28,30 @@ public class Game implements TetrisListener
 
 	public void pause()
 	{
+	}
+
+	public void turnClockWise()
+	{
+		board.turnClockwise();
+	}
+
+	public void speedDown()
+	{
+		board.moveDown();
+	}
+
+	public void moveRight()
+	{
+		board.moveRight();
+	}
+
+	public void moveLeft()
+	{
+		board.moveLeft();
+	}
+	
+	public String toString()
+	{
+		return board.toString();
 	}
 }
