@@ -3,10 +3,10 @@ package robotTetris.tetrisGame.modele;
 public class Board
 {
 
-	private final int WIDTH = 10;
-	private final int HEIGHT = 22;
-	private Cell[][] board;
-	private Tetromino tetromino;
+	private final int	WIDTH	= 10;
+	private final int	HEIGHT	= 22;
+	private Cell[][]	board;
+	private Tetromino	tetromino;
 
 	public Board()
 	{
@@ -14,6 +14,7 @@ public class Board
 		for (int col = 0; col < WIDTH; col++)
 			for (int row = 0; row < HEIGHT; row++)
 				board[col][row] = new Cell(col, row);
+		updateTetromino();
 	}
 
 	/**
@@ -21,9 +22,9 @@ public class Board
 	 * @param newTetromino
 	 *            - Nouveau tetromino mis à jour par Game
 	 */
-	public void updateTetromino(Tetromino newTetromino)
+	public void updateTetromino()
 	{
-		tetromino = newTetromino;
+		tetromino = new Tetromino();
 	}
 
 	public Cell getCell(int row, int col)
@@ -31,9 +32,13 @@ public class Board
 		return board[col][row];
 	}
 
-	public void moveDown()
+	public boolean moveDown()
 	{
-		/* if () */
+		for (Cell cell : tetromino.getCells(this))
+			if (isOccupied(cell.getCol(), cell.getRow()+1))
+				return false;
+		tetromino.fall();
+		return true;
 	}
 
 	/**
@@ -78,13 +83,13 @@ public class Board
 	public boolean isOccupied(int col, int row)
 	{
 		if (col < 0)
-			return false;
+			return true;
 		if (row < 0)
-			return false;
-		if (row < HEIGHT)
-			return false;
-		if (row < WIDTH)
-			return false;
+			return true;
+		if (row >= HEIGHT)
+			return true;
+		if (col >= WIDTH)
+			return true;
 
 		return board[col][row].isOccupied();
 	}
@@ -98,25 +103,24 @@ public class Board
 			str += "|";
 			for (int col = 0; col < WIDTH; col++)
 			{
-				if (!this.getCell(row, col).isOccupied())
-					str += " . ";
+				if (getCell(row, col).isOccupied()
+						|| tetromino.getCells(this).contains(getCell(row, col)))
+					str += " X ";
 				else
-					str += "X";
+					str += " . ";
 			}
 			str += "|\n";
-			if (row == HEIGHT-1)
-				str += "________________________________";
+			if (row == HEIGHT - 1)
+				str += "\\______________________________/";
 		}
 
 		return str;
 	}
 
-	/* *
-	 * à virer sur le long terme
-	 */
-	public static void main(String[] arg)
+	public void lockTetromino()
 	{
-		Board board = new Board();
-		System.out.println(board);
+		for (Cell c: tetromino.getCells(this))
+			c.occupy();
+		updateTetromino();
 	}
 }

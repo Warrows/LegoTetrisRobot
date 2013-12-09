@@ -18,8 +18,8 @@ public class Tetromino
 	public Tetromino()
 	{
 		this.type = TetrominoType.getRandomTetrominoType();
-		colOffset = 5;
-		rowOffset = 1;
+		colOffset = 3;
+		rowOffset = 0;
 		switch (type)
 		{
 		case O:
