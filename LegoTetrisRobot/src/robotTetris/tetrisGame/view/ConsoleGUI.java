@@ -59,7 +59,7 @@ public class ConsoleGUI extends GUI implements KeyListener
 		while (gui.game.isPlaying())
 		{
 			gui.game.tick();
-			System.out.println(gui.game);
+			gui.updateGUI();
 			try
 			{
 				Thread.sleep(1000);
@@ -93,12 +93,18 @@ public class ConsoleGUI extends GUI implements KeyListener
 			game.moveLeft();
 			break;
 		}
-		System.out.println(getInstance().game);
+		updateGUI();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e)
 	{
 
+	}
+
+	@Override
+	public void updateGUI()
+	{
+		System.out.println(game);
 	}
 }

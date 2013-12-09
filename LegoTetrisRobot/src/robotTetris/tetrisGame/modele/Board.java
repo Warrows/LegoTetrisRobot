@@ -1,5 +1,8 @@
 package robotTetris.tetrisGame.modele;
 
+import java.util.HashSet;
+import java.util.LinkedList;
+
 public class Board
 {
 
@@ -34,7 +37,7 @@ public class Board
 	public boolean moveDown()
 	{
 		for (Cell cell : tetromino.getCells(this))
-			if (isOccupied(cell.getCol(), cell.getRow()+1))
+			if (isOccupied(cell.getCol(), cell.getRow() + 1))
 				return false;
 		tetromino.fall();
 		return true;
@@ -42,12 +45,13 @@ public class Board
 
 	/**
 	 * Déplace le tetromino vers la gauche
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public boolean moveLeft()
 	{
 		for (Cell cell : tetromino.getCells(this))
-			if (isOccupied(cell.getCol()-1, cell.getRow()))
+			if (isOccupied(cell.getCol() - 1, cell.getRow()))
 				return false;
 		tetromino.moveLeft();
 		return true;
@@ -59,7 +63,7 @@ public class Board
 	public boolean moveRight()
 	{
 		for (Cell cell : tetromino.getCells(this))
-			if (isOccupied(cell.getCol()+1, cell.getRow()))
+			if (isOccupied(cell.getCol() + 1, cell.getRow()))
 				return false;
 		tetromino.moveRight();
 		return true;
@@ -127,8 +131,34 @@ public class Board
 
 	public void lockTetromino()
 	{
-		for (Cell c: tetromino.getCells(this))
+		HashSet<Integer> rows = new HashSet<Integer>();
+		HashSet<Integer> rowsToFree = new HashSet<Integer>();
+		for (Cell c : tetromino.getCells(this))
+		{
 			c.occupy();
+			rows.add(c.getRow());
+		}
+		for (int row : rows)
+		{
+			for (int i = 0; i < WIDTH; i++)
+			{
+				if (!getCell(row, i).isOccupied())
+					continue;
+				else
+					rowsToFree.add(row);
+			}
+		}
+		for (int row : rowsToFree)
+			breakLine(row);
 		updateTetromino();
+	}
+
+	private void breakLine(int row)
+	{
+		for (int i = 0; i < WIDTH; i++)
+		{
+			getCell(row, i).free();
+			// TODO faire la gravité
+		}
 	}
 }
