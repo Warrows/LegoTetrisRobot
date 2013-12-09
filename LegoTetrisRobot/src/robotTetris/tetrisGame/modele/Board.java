@@ -6,10 +6,10 @@ import java.util.LinkedList;
 public class Board
 {
 
-	private final int	WIDTH	= 10;
-	private final int	HEIGHT	= 22;
-	private Cell[][]	board;
-	private Tetromino	tetromino;
+	private final int WIDTH = 10;
+	private final int HEIGHT = 22;
+	private Cell[][] board;
+	private Tetromino tetromino;
 
 	public Board()
 	{
@@ -137,15 +137,17 @@ public class Board
 		{
 			c.occupy();
 			rows.add(c.getRow());
+			rowsToFree.add(c.getRow());
 		}
 		for (int row : rows)
 		{
 			for (int i = 0; i < WIDTH; i++)
 			{
 				if (!getCell(row, i).isOccupied())
-					continue;
-				else
-					rowsToFree.add(row);
+				{
+					rowsToFree.remove(row);
+					break;
+				}
 			}
 		}
 		for (int row : rowsToFree)
@@ -153,12 +155,19 @@ public class Board
 		updateTetromino();
 	}
 
-	private void breakLine(int row)
+	private void breakLine(int rowToClear)
 	{
 		for (int i = 0; i < WIDTH; i++)
 		{
-			getCell(row, i).free();
-			// TODO faire la gravité
+			getCell(rowToClear, i).free();
 		}
+		for (int row = rowToClear; row >= 0; row--)
+			for (int col = 0; col < WIDTH; col++)
+				if (getCell(row, col).isOccupied())
+				{
+					getCell(row + 1, col).occupy();
+					getCell(row, col).free();
+				}
+
 	}
 }
