@@ -76,7 +76,7 @@ public class Tetromino
 		{
 			for (int c = 0; c < N; c++)
 			{
-				if (board.isOccupied(c + rowOffset, M - 1 - r + colOffset))
+				if (board.isOccupied(M - 1 - r + colOffset, c + rowOffset))
 					return false;
 				ret[c][M - 1 - r] = representation[r][c];
 			}
@@ -94,7 +94,7 @@ public class Tetromino
 		{
 			for (int c = 0; c < N; c++)
 			{
-				if (board.isOccupied(M - 1 - c + rowOffset, r + colOffset))
+				if (board.isOccupied( r + colOffset, M - 1 - c + rowOffset))
 					return false;
 				ret[M - 1 - c][r] = representation[r][c];
 			}
