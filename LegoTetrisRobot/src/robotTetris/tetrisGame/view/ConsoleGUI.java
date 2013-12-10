@@ -18,7 +18,7 @@ public class ConsoleGUI extends GUI implements KeyListener
 	private JFrame					frame;
 	private TextAreaOutputStream	taos;
 	private Game					game;
-	private static ConsoleGUI instance;
+	private static ConsoleGUI		instance;
 
 	public static ConsoleGUI getInstance()
 	{
@@ -26,7 +26,7 @@ public class ConsoleGUI extends GUI implements KeyListener
 			instance = new ConsoleGUI();
 		return instance;
 	}
-	
+
 	private ConsoleGUI()
 	{
 		frame = new JFrame();
@@ -105,6 +105,7 @@ public class ConsoleGUI extends GUI implements KeyListener
 	@Override
 	public void updateGUI()
 	{
-		System.out.println(game);
+		if (game.isPlaying())
+			System.out.println(game);
 	}
 }

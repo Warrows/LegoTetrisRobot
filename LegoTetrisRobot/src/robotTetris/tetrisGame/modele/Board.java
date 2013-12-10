@@ -1,15 +1,17 @@
 package robotTetris.tetrisGame.modele;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.List;
 
 public class Board
 {
 
-	private final int WIDTH = 10;
-	private final int HEIGHT = 22;
-	private Cell[][] board;
-	private Tetromino tetromino;
+	public static final int			WIDTH				= 10;
+	public static final int			HEIGHT				= 22;
+	private Cell[][]				board;
+	private Tetromino				tetromino;
+	private List<GameOverListener>	gameOverListeners	= new ArrayList<GameOverListener>();
 
 	public Board()
 	{
@@ -20,6 +22,11 @@ public class Board
 		updateTetromino();
 	}
 
+	public void addListener(GameOverListener toAdd)
+	{
+		gameOverListeners.add(toAdd);
+	}
+
 	/**
 	 * 
 	 * @param newTetromino
@@ -27,10 +34,17 @@ public class Board
 	public void updateTetromino()
 	{
 		tetromino = new Tetromino();
+		for (Cell c : tetromino.getCells(this))
+			if (c.isOccupied())
+			{
+				gameOver();
+				return;
+			}
 	}
 
 	public Cell getCell(int row, int col)
 	{
+		System.err.println("->"+col+" "+row);
 		return board[col][row];
 	}
 
@@ -133,6 +147,11 @@ public class Board
 	{
 		HashSet<Integer> rows = new HashSet<Integer>();
 		HashSet<Integer> rowsToFree = new HashSet<Integer>();
+		if (tetromino.isOut())
+		{
+			gameOver();
+			return;
+		}
 		for (Cell c : tetromino.getCells(this))
 		{
 			c.occupy();
@@ -169,5 +188,11 @@ public class Board
 					getCell(row, col).free();
 				}
 
+	}
+
+	private void gameOver()
+	{
+		for (GameOverListener listener : gameOverListeners)
+			listener.gameOver(new GameOverEvent());
 	}
 }

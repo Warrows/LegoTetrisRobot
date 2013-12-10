@@ -5,21 +5,18 @@ import java.util.Set;
 
 public class Tetromino
 {
-	private TetrominoType type;
-	private int rowOffset;
-	private int colOffset;
-	private boolean[][] representation =
-	{
-	{ false, false, false, false },
-	{ false, false, false, false },
-	{ false, false, false, false },
-	{ false, false, false, false } };
+	private TetrominoType	type;
+	private int				rowOffset;
+	private int				colOffset;
+	private boolean[][]		representation	= { { false, false, false, false },
+			{ false, false, false, false }, { false, false, false, false },
+			{ false, false, false, false }	};
 
 	public Tetromino()
 	{
 		this.type = TetrominoType.getRandomTetrominoType();
 		colOffset = 3;
-		rowOffset = 0;
+		rowOffset = -2;
 		switch (type)
 		{
 		case O:
@@ -94,7 +91,7 @@ public class Tetromino
 		{
 			for (int c = 0; c < N; c++)
 			{
-				if (board.isOccupied( r + colOffset, M - 1 - c + rowOffset))
+				if (board.isOccupied(r + colOffset, M - 1 - c + rowOffset))
 					return false;
 				ret[M - 1 - c][r] = representation[r][c];
 			}
@@ -133,10 +130,43 @@ public class Tetromino
 		for (int row = 0; row < 4; row++)
 		{
 			for (int col = 0; col < 4; col++)
-				if (representation[col][row])
+				if (representation[col][row]
+						&& isAcceptable(col + colOffset, row + rowOffset))
+				{
+					System.err.println("-->" + (colOffset + col) + " " + col
+							+ " " + colOffset);
 					ret.add(board.getCell(rowOffset + row, colOffset + col));
+				}
 		}
 		return ret;
+	}
+
+	private boolean isAcceptable(int col, int row)
+	{
+		if (col < 0)
+			return false;
+		if (col > Board.WIDTH)
+			return false;
+		if (row < 0)
+			return false;
+		if (row > Board.HEIGHT)
+			return false;
+		return true;
+	}
+
+	public boolean isOut()
+	{
+		for (int row = 0; row < 4; row++)
+			for (int col = 0; col < 4; col++)
+			{
+				System.err.println(col);
+				System.err.println(colOffset);
+				System.err.println(col + colOffset);
+				if (!isAcceptable(col + colOffset, row + rowOffset))
+					if (representation[col][row])
+						return true;
+			}
+		return false;
 	}
 
 	public String toString()

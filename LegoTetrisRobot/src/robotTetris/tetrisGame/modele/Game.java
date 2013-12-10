@@ -1,6 +1,6 @@
 package robotTetris.tetrisGame.modele;
 
-public class Game implements TetrisListener
+public class Game implements GameOverListener
 {
 	private Board	board;
 	private boolean playing;
@@ -8,6 +8,7 @@ public class Game implements TetrisListener
 	public Game()
 	{
 		this.board = new Board();
+		board.addListener(this);
 		playing = true;
 	}
 	
@@ -28,7 +29,8 @@ public class Game implements TetrisListener
 
 	public void pause()
 	{
-	}
+	}// TODO Auto-generated method stub
+	
 
 	public void turnClockWise()
 	{
@@ -53,5 +55,11 @@ public class Game implements TetrisListener
 	public String toString()
 	{
 		return board.toString();
+	}
+	
+	public void gameOver(GameOverEvent e)
+	{
+		playing = false;
+		System.out.println("Game Over");
 	}
 }
