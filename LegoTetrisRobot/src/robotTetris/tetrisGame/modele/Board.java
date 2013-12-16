@@ -3,6 +3,8 @@ package robotTetris.tetrisGame.modele;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class Board
 {
@@ -144,8 +146,7 @@ public class Board
 
 	public void lockTetromino()
 	{
-		HashSet<Integer> rows = new HashSet<Integer>();
-		HashSet<Integer> rowsToFree = new HashSet<Integer>();
+		TreeSet<Integer> rows = new TreeSet<Integer>();
 		if (tetromino.isOut())
 		{
 			gameOver();
@@ -155,26 +156,21 @@ public class Board
 		{
 			c.occupy();
 			rows.add(c.getRow());
-			rowsToFree.add(c.getRow());
 		}
 		for (int row : rows)
-		{
-			for (int i = 0; i < WIDTH; i++)
-			{
-				if (!getCell(row, i).isOccupied())
-				{
-					rowsToFree.remove(row);
-					break;
-				}
-			}
-		}
-		for (int row : rowsToFree)
 			breakLine(row);
 		updateTetromino();
 	}
 
-	private void breakLine(int rowToClear)
+	private boolean breakLine(int rowToClear)
 	{
+		for (int i = 0; i < WIDTH; i++)
+		{
+			if (!getCell(rowToClear, i).isOccupied())
+			{
+				return false;
+			}
+		}
 		for (int i = 0; i < WIDTH; i++)
 		{
 			getCell(rowToClear, i).free();
@@ -186,7 +182,7 @@ public class Board
 					getCell(row + 1, col).occupy();
 					getCell(row, col).free();
 				}
-
+		return true;
 	}
 
 	private void gameOver()
