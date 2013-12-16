@@ -12,7 +12,7 @@
  * @version 0.0.1
  * @date 10 déc. 2013
  */
-package robotTetris.tetrisGame.modele;
+package robotTetris.tetrisGame.modele.events;
 
 /**
  * @author lebarbe

@@ -62,7 +62,9 @@ public class ConsoleGUI extends GUI implements KeyListener
 			gui.updateGUI();
 			try
 			{
-				Thread.sleep(1000);
+				System.err.println(1000 * (11-gui.game.getLvl()*0.05));
+				System.err.println(gui.game.getLvl());
+				Thread.sleep((long) (100 * (11-gui.game.getLvl()*0.05)));
 			} catch (InterruptedException e)
 			{
 				e.printStackTrace();

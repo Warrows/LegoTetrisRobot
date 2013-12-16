@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
+import robotTetris.tetrisGame.modele.events.GameOverEvent;
+import robotTetris.tetrisGame.modele.events.GameOverListener;
+import robotTetris.tetrisGame.modele.events.LineBreakEvent;
+import robotTetris.tetrisGame.modele.events.LineBreakListener;
+
 public class Board
 {
 
@@ -12,6 +17,7 @@ public class Board
 	private Cell[][]				board;
 	private Tetromino				tetromino;
 	private List<GameOverListener>	gameOverListeners	= new ArrayList<GameOverListener>();
+	private List<LineBreakListener>	lineBreakListeners	= new ArrayList<LineBreakListener>();
 
 	public Board()
 	{
@@ -25,6 +31,11 @@ public class Board
 	public void addListener(GameOverListener toAdd)
 	{
 		gameOverListeners.add(toAdd);
+	}
+
+	public void addListener(LineBreakListener toAdd)
+	{
+		lineBreakListeners.add(toAdd);
 	}
 
 	/**
@@ -155,20 +166,33 @@ public class Board
 			c.occupy();
 			rows.add(c.getRow());
 		}
-		for (int row : rows)
-			breakLine(row);
+		breakLines(rows);
 		updateTetromino();
+	}
+	
+	private void breakLines(TreeSet<Integer> rows)
+	{
+		TreeSet<Integer> rows2 = new TreeSet<Integer>();
+		rows2.addAll(rows);
+		for (int row : rows)
+		{
+			for (int i = 0; i < WIDTH; i++)
+			{
+				if (!getCell(row, i).isOccupied())
+				{
+					rows2.remove(row);
+					break;
+				}
+			}
+		}
+		for (LineBreakListener listener : lineBreakListeners)
+			listener.LineBreak(new LineBreakEvent(rows2.size()));
+		for (int row : rows2)
+			breakLine(row);
 	}
 
 	private boolean breakLine(int rowToClear)
 	{
-		for (int i = 0; i < WIDTH; i++)
-		{
-			if (!getCell(rowToClear, i).isOccupied())
-			{
-				return false;
-			}
-		}
 		for (int i = 0; i < WIDTH; i++)
 		{
 			getCell(rowToClear, i).free();

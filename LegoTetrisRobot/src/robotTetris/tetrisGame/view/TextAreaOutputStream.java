@@ -20,6 +20,8 @@ import java.io.OutputStream;
 import javax.swing.JTextArea;
 import javax.swing.text.BadLocationException;
 
+import robotTetris.tetrisGame.modele.Board;
+
 /**
  * @author lebarbe
  * 
@@ -40,7 +42,7 @@ public class TextAreaOutputStream extends OutputStream
 		textArea.append(String.valueOf((char) b));
 		// scrolls the text area to the end of data
 		textArea.setCaretPosition(textArea.getDocument().getLength());
-		if (textArea.getLineCount() > 23)
+		if (textArea.getLineCount() > Board.HEIGHT + 1)
 		{
 			try
 			{

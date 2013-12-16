@@ -13,8 +13,8 @@ public class Tetromino
 	public Tetromino()
 	{
 		this.type = TetrominoType.getRandomTetrominoType();
-		colOffset = 3;
-		rowOffset = -2;
+		colOffset = Board.WIDTH/2;
+		rowOffset = 0;
 		switch (type)
 		{
 		case O:
@@ -46,10 +46,10 @@ public class Tetromino
 			representation[2][2] = true;
 			break;
 		case S:
-			representation = new boolean[2][3];
-			representation[0][1] = true;
-			representation[0][2] = true;
+			representation = new boolean[3][2];
 			representation[1][0] = true;
+			representation[2][0] = true;
+			representation[0][1] = true;
 			representation[1][1] = true;
 			break;
 		case T:
