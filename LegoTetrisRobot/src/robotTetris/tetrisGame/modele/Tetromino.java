@@ -8,9 +8,7 @@ public class Tetromino
 	private TetrominoType	type;
 	private int				rowOffset;
 	private int				colOffset;
-	private boolean[][]		representation	= { { false, false, false, false },
-			{ false, false, false, false }, { false, false, false, false },
-			{ false, false, false, false }	};
+	private boolean[][]		representation;
 
 	public Tetromino()
 	{
@@ -20,46 +18,53 @@ public class Tetromino
 		switch (type)
 		{
 		case O:
-			representation[2][2] = true;
-			representation[2][1] = true;
-			representation[1][2] = true;
+			representation = new boolean[2][2];
+			representation[0][0] = true;
+			representation[0][1] = true;
+			representation[1][0] = true;
 			representation[1][1] = true;
 			break;
 		case I:
+			representation = new boolean[3][4];
 			representation[1][0] = true;
 			representation[1][1] = true;
 			representation[1][2] = true;
 			representation[1][3] = true;
 			break;
 		case J:
-			representation[2][0] = true;
-			representation[2][1] = true;
-			representation[2][2] = true;
+			representation = new boolean[3][3];
+			representation[0][2] = true;
+			representation[1][0] = true;
+			representation[1][1] = true;
 			representation[1][2] = true;
 			break;
 		case L:
+			representation = new boolean[3][3];
 			representation[1][0] = true;
 			representation[1][1] = true;
 			representation[1][2] = true;
 			representation[2][2] = true;
 			break;
 		case S:
+			representation = new boolean[2][3];
+			representation[0][1] = true;
+			representation[0][2] = true;
+			representation[1][0] = true;
 			representation[1][1] = true;
-			representation[1][2] = true;
-			representation[2][0] = true;
-			representation[2][1] = true;
 			break;
 		case T:
+			representation = new boolean[3][3];
+			representation[1][0] = true;
 			representation[1][1] = true;
 			representation[1][2] = true;
-			representation[1][3] = true;
-			representation[2][2] = true;
+			representation[0][1] = true;
 			break;
 		case Z:
+			representation = new boolean[3][2];
+			representation[0][0] = true;
+			representation[1][0] = true;
 			representation[1][1] = true;
-			representation[1][2] = true;
-			representation[2][2] = true;
-			representation[2][3] = true;
+			representation[2][1] = true;
 			break;
 		}
 	}
@@ -127,14 +132,12 @@ public class Tetromino
 	public Set<Cell> getCells(Board board)
 	{
 		HashSet<Cell> ret = new HashSet<Cell>();
-		for (int row = 0; row < 4; row++)
+		for (int row = 0; row < representation[0].length; row++)
 		{
-			for (int col = 0; col < 4; col++)
+			for (int col = 0; col < representation.length; col++)
 				if (representation[col][row]
 						&& isAcceptable(col + colOffset, row + rowOffset))
 				{
-					System.err.println("-->" + (colOffset + col) + " " + col
-							+ " " + colOffset);
 					ret.add(board.getCell(rowOffset + row, colOffset + col));
 				}
 		}
@@ -156,12 +159,9 @@ public class Tetromino
 
 	public boolean isOut()
 	{
-		for (int row = 0; row < 4; row++)
-			for (int col = 0; col < 4; col++)
+		for (int row = 0; row < representation[0].length; row++)
+			for (int col = 0; col < representation.length; col++)
 			{
-				System.err.println(col);
-				System.err.println(colOffset);
-				System.err.println(col + colOffset);
 				if (!isAcceptable(col + colOffset, row + rowOffset))
 					if (representation[col][row])
 						return true;
