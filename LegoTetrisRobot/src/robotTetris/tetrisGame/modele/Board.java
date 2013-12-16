@@ -44,7 +44,6 @@ public class Board
 
 	public Cell getCell(int row, int col)
 	{
-		System.err.println("->"+col+" "+row);
 		return board[col][row];
 	}
 
