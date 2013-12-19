@@ -3,6 +3,7 @@ package robotTetris.tetrisGame.modele;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
+import java.util.Iterator;
 
 import robotTetris.tetrisGame.modele.events.GameOverEvent;
 import robotTetris.tetrisGame.modele.events.GameOverListener;
@@ -169,25 +170,26 @@ public class Board
 		breakLines(rows);
 		updateTetromino();
 	}
-	
+
 	private void breakLines(TreeSet<Integer> rows)
 	{
-		TreeSet<Integer> rows2 = new TreeSet<Integer>();
-		rows2.addAll(rows);
-		for (int row : rows)
+		Iterator<Integer> it = rows.iterator();
+
+		while (it.hasNext())
 		{
+			int line = it.next();
 			for (int i = 0; i < WIDTH; i++)
 			{
-				if (!getCell(row, i).isOccupied())
+				if (!getCell(line, i).isOccupied())
 				{
-					rows2.remove(row);
+					it.remove();
 					break;
 				}
 			}
 		}
 		for (LineBreakListener listener : lineBreakListeners)
-			listener.LineBreak(new LineBreakEvent(rows2.size()));
-		for (int row : rows2)
+			listener.LineBreak(new LineBreakEvent(rows.size()));
+		for (int row : rows)
 			breakLine(row);
 	}
 
